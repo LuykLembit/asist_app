@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: telemonitor_db
+    environment:
+      POSTGRES_DB: telemonitor
+      POSTGRES_USER: telemonitor_user
+      POSTGRES_PASSWORD: telemonitor_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U telemonitor_user -d telemonitor"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  telemonitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: telemonitor_app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=telemonitor
+      - DB_USER=telemonitor_user
+      - DB_PASSWORD=telemonitor_pass
+      - DB_SSL_MODE=disable
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+
+volumes:
+  postgres_data:

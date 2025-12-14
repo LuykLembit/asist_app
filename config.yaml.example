@@ -1,0 +1,47 @@
+telegram:
+  # Userbot credentials - Get from https://my.telegram.org
+  app_id: 12345
+  app_hash: "your_app_hash_here"
+  
+  # Bot credentials - Get from @BotFather
+  bot_token: "your_bot_token_here"
+  
+  # Admin access control - Your Telegram User ID
+  admin_id: 999999
+
+  # Client masquerading for anti-detection
+  device_model: "Desktop"
+  system_version: "Windows 10"
+  app_version: "4.9.0"
+
+ai:
+  # ZhipuAI API configuration
+  zhipu_api_key: "your_zhipu_api_key"
+  model: "glm-4"  # Options: glm-4, glm-4-flash
+  
+  # Generation parameters
+  temperature: 0.3
+  max_tokens: 2000
+
+database:
+  host: "localhost"
+  port: 5432
+  name: "telemonitor"
+  user: "telemonitor_user"
+  password: "secure_password"
+  ssl_mode: "disable"  # Use "require" for production
+
+scheduler:
+  # Daily report generation time (24h format)
+  report_time: "08:00"
+  
+  # Data retention policy
+  raw_messages_retention_days: 7
+
+rate_limiting:
+  # Anti-fraud delays in milliseconds
+  min_delay: 1000
+  max_delay: 5000
+  
+  # Transcription throttling
+  transcriptions_per_minute: 10
